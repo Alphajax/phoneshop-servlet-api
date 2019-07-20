@@ -8,6 +8,10 @@
   <p>
     Welcome to Expert-Soft training!
   </p>
+  <form action="search">
+    <input type="text" name="userRequest">
+    <input type="submit" value="Search">
+  </form>
   <table>
     <thead>
       <tr>

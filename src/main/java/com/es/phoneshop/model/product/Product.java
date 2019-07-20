@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Objects;
 
-public class Product {
+public class Product  implements Cloneable{
     private Long id;
     private String code;
     private String description;
@@ -18,9 +18,6 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id) {
-        this.id = id;
-    }
 
     public Product(Long id, String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl) {
         this.id = id;
@@ -93,11 +90,35 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id);
+        return stock == product.stock &&
+                id.equals(product.id) &&
+                code.equals(product.code) &&
+                description.equals(product.description) &&
+                price.equals(product.price) &&
+                currency.equals(product.currency) &&
+                imageUrl.equals(product.imageUrl);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", stock=" + stock +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}'+'\n';
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    protected Product clone() throws CloneNotSupportedException {
+        return (Product) super.clone();
     }
 }
