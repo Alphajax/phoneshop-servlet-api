@@ -14,6 +14,7 @@ public class Product  implements Cloneable{
     private Currency currency;
     private int stock;
     private String imageUrl;
+    private int matchesNum;
 
     public Product() {
     }
@@ -85,6 +86,14 @@ public class Product  implements Cloneable{
         this.imageUrl = imageUrl;
     }
 
+    public int getMatchesNum() {
+        return matchesNum;
+    }
+
+    public void setMatchesNum(int matchesNum) {
+        this.matchesNum = matchesNum;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -109,6 +118,7 @@ public class Product  implements Cloneable{
                 ", currency=" + currency +
                 ", stock=" + stock +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", matchesNum=" + matchesNum +
                 '}'+'\n';
     }
 
@@ -121,4 +131,5 @@ public class Product  implements Cloneable{
     protected Product clone() throws CloneNotSupportedException {
         return (Product) super.clone();
     }
+
 }
