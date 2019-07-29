@@ -1,10 +1,10 @@
-package com.es.phoneshop.model.product;
+package com.es.phoneshop.model.product.entities;
 
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Objects;
 
-public class Product  implements Cloneable{
+public class Product {
     private Long id;
     private String code;
     private String description;
@@ -29,6 +29,17 @@ public class Product  implements Cloneable{
         this.stock = stock;
         this.imageUrl = imageUrl;
     }
+
+    public Product(Product p) {
+        this.id = p.getId();
+        this.code = p.getCode();
+        this.description = p.getDescription();
+        this.price = p.getPrice();
+        this.currency = p.getCurrency();
+        this.stock = p.getStock();
+        this.imageUrl = p.getImageUrl();
+    }
+
 
     public Long getId() {
         return id;
@@ -99,13 +110,7 @@ public class Product  implements Cloneable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return stock == product.stock &&
-                id.equals(product.id) &&
-                code.equals(product.code) &&
-                description.equals(product.description) &&
-                price.equals(product.price) &&
-                currency.equals(product.currency) &&
-                imageUrl.equals(product.imageUrl);
+        return id.equals(product.id) ;
     }
 
     @Override
@@ -127,9 +132,5 @@ public class Product  implements Cloneable{
         return Objects.hash(id);
     }
 
-    @Override
-    protected Product clone() throws CloneNotSupportedException {
-        return (Product) super.clone();
-    }
 
 }

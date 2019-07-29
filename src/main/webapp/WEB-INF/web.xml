@@ -13,15 +13,7 @@
     <location>/WEB-INF/pages/errorPage500.jsp</location>
   </error-page>
   <error-page>
-    <exception-type>com.es.phoneshop.exceptions.DetailsNotFoundException</exception-type>
-    <location>/WEB-INF/pages/errorPage404.jsp</location>
-  </error-page>
-  <error-page>
     <exception-type>com.es.phoneshop.exceptions.ProductNotFoundException</exception-type>
-    <location>/WEB-INF/pages/errorPage404.jsp</location>
-  </error-page>
-  <error-page>
-    <exception-type>com.es.phoneshop.exceptions.DetailsNotFoundException</exception-type>
     <location>/WEB-INF/pages/errorPage404.jsp</location>
   </error-page>
   <listener>

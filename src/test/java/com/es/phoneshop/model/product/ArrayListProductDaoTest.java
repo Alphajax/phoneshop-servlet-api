@@ -2,6 +2,9 @@ package com.es.phoneshop.model.product;
 
 import com.es.phoneshop.exceptions.FindNotSuitProductException;
 import com.es.phoneshop.exceptions.ProductNotFoundException;
+import com.es.phoneshop.model.product.dao.ArrayListProductDao;
+import com.es.phoneshop.model.product.dao.ProductDao;
+import com.es.phoneshop.model.product.entities.Product;
 import org.junit.Before;
 import org.junit.Test;
 

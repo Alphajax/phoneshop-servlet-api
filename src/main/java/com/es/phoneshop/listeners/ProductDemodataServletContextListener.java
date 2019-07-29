@@ -1,8 +1,9 @@
 package com.es.phoneshop.listeners;
 
-import com.es.phoneshop.model.product.*;
+import com.es.phoneshop.model.product.dao.ArrayListProductDao;
+import com.es.phoneshop.model.product.dao.ProductDao;
+import com.es.phoneshop.model.product.entities.Product;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.math.BigDecimal;
@@ -26,11 +27,6 @@ public class ProductDemodataServletContextListener implements ServletContextList
         dao.save(new Product(11L, "simc56", "Siemens C56", new BigDecimal(70), usd, 20, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Siemens/Siemens%20C56.jpg"));
         dao.save(new Product(12L, "simc61", "Siemens C61", new BigDecimal(80), usd, 30, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Siemens/Siemens%20C61.jpg"));
         dao.save(new Product(13L, "simsxg75", "Siemens SXG75", new BigDecimal(150), usd, 40, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Siemens/Siemens%20SXG75.jpg"));
-
-        DetailsDao detailsDao = HashMapDetailsDao.getInstance();
-        detailsDao.save("sgs", new Details("Korea",2010,"Snapdraagon 660","2 GB", "16 GB"));
-        detailsDao.save("sgs3", new Details("Korea",2012,"Snapdraagon 855","4 GB", "64 GB"));
-        detailsDao.save("iphone", new Details("USA", 2007,"Apple A1","256 MB","4 GB"));
 
     }
 

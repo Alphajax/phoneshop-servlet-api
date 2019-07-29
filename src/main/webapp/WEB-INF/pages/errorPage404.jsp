@@ -13,8 +13,5 @@
     </head>
     <body>
         <h1>ERROR 404</h1>
-        <form action="products">
-            <input type="submit" value="GO TO START PAGE"/>
-        </form>
     </body>
 </html>

@@ -1,6 +1,6 @@
 package com.es.phoneshop.model.product.comparators;
 
-import com.es.phoneshop.model.product.Product;
+import com.es.phoneshop.model.product.entities.Product;
 
 import java.util.Comparator;
 
