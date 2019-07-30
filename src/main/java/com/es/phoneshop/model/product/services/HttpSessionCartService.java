@@ -21,13 +21,19 @@ public class HttpSessionCartService {
     }
 
     public void add(HttpSession session,long productID, int quantity){
-        Cart cart = (Cart) session.getAttribute("cart");
-        if(cart == null){
-            cart = new Cart();
+        Cart cart;
+        synchronized (session){
+            cart = (Cart) session.getAttribute("cart");
+            if(cart == null){
+                cart = new Cart();
+                session.setAttribute("cart",cart);
+            }
+
         }
-        List<CartItem> cartItems = cart.getCartItems();
-        cartItems.add(new CartItem(productID,quantity));
-        cart.setCartItems(cartItems);
-        session.setAttribute("cart",cart);
+        synchronized (cart){
+            List<CartItem> cartItems = cart.getCartItems();
+            cartItems.add(new CartItem(productID,quantity));
+            cart.setCartItems(cartItems);
+        }
     }
 }

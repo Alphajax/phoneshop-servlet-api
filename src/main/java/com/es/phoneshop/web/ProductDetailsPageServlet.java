@@ -26,10 +26,8 @@ public class ProductDetailsPageServlet extends HttpServlet {
             product = ProductService.getInstance().getProduct(id);
             req.setAttribute("product",product);
             req.getRequestDispatcher("/WEB-INF/pages/productDetailsPage.jsp").forward(req,resp);
-            System.out.println("yes");
         } catch (ProductNotFoundException e) {
             req.getRequestDispatcher("/WEB-INF/pages/errorPage404.jsp").forward(req,resp);
-            System.out.println("no");
         }
     }
 
@@ -47,8 +45,10 @@ public class ProductDetailsPageServlet extends HttpServlet {
             } else{
                 req.setAttribute("message" , "not enought products");
             }
+
             req.setAttribute("product",product);
-            req.getRequestDispatcher("/WEB-INF/pages/productDetailsPage.jsp").forward(req,resp);
+            resp.sendRedirect(req.getContextPath() + req.getServletPath() + req.getPathInfo());
+            //req.getRequestDispatcher("/WEB-INF/pages/productDetailsPage.jsp").forward(req,resp);
         } catch (ProductNotFoundException e) {
             req.getRequestDispatcher("/WEB-INF/pages/errorPage404.jsp").forward(req,resp);
         } catch (NumberFormatException e ){

@@ -21,6 +21,7 @@ public class Product {
 
 
     public Product(Long id, String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl) {
+        Objects.requireNonNull(id);
         this.id = id;
         this.code = code;
         this.description = description;
@@ -43,10 +44,6 @@ public class Product {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCode() {
