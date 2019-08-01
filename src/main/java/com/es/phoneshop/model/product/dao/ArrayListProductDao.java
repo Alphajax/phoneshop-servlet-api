@@ -36,7 +36,7 @@ public class ArrayListProductDao implements ProductDao {
                     return new Product(prd);
                 }
             }
-            throw new ProductNotFoundException("There is no products with such id");
+            throw new ProductNotFoundException("Product with id = " + id +" not found");
         }
 
     }
@@ -61,9 +61,12 @@ public class ArrayListProductDao implements ProductDao {
     @Override
     public synchronized void delete(Long id) {
         requireNonNull(id,"Id must be not null");
-
-        int index = products.indexOf(new Product(id,null,null,null,null,0,null));
-        products.remove(index);
+        for (int i = 0; i < products.size(); i++) {
+            if( products.get(i).getId().equals(id)) {
+                products.remove(i);
+                break;
+            }
+        }
     }
 
 

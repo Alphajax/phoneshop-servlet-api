@@ -6,8 +6,8 @@ import com.es.phoneshop.model.product.entities.Product;
 import com.es.phoneshop.model.product.dao.ProductDao;
 import com.es.phoneshop.model.product.comparators.*;
 
-import java.util.Arrays;
-import java.util.List;
+import java.security.KeyStore;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductService implements ProductServiceI {
@@ -45,22 +45,39 @@ public class ProductService implements ProductServiceI {
     }
 
     private List<Product> searchProductsByDesc(String userRequest, List<Product> productList){
-            List<String> words = Arrays.asList(userRequest.split("\\s+")) ;
-            productList =productList.stream().filter(product -> filterProducts(words,product)).collect(Collectors.toList());
-            productList.sort(new ProductSearchComparatorASC());
-            return productList;
-    }
-
-    private boolean filterProducts(List<String> words, Product product){
-        String description = product.getDescription();
-        boolean isSuit = false;
-        for (String wrd : words) {
-            if(description.toLowerCase().contains(wrd.toLowerCase())){
-                isSuit=true;
-                product.setMatchesNum(product.getMatchesNum()+1);
+        Map<Product, Integer> matches = new HashMap<>();
+        int maxMatches = 0;
+        List<String> words = Arrays.asList(userRequest.split("\\s+")) ;
+        List<Product> newProductList = new ArrayList<>();
+        for (Product product: productList) {
+            int matchesNum = filterProducts(words,product);
+            if(maxMatches<matchesNum){
+                maxMatches = matchesNum;
+            }
+            if (matchesNum  > 0) {
+                matches.put(product,matchesNum);
             }
         }
-        return isSuit;
+
+        for( int i = maxMatches; i >= 1; i--){
+            for (Map.Entry<Product,Integer> entry: matches.entrySet()) {
+                if(entry.getValue().equals(i)){
+                    newProductList.add(entry.getKey());
+                }
+            }
+        }
+        return newProductList;
+    }
+
+    private int filterProducts(List<String> words, Product product){
+        String description = product.getDescription();
+        int matches = 0;
+        for (String wrd : words) {
+            if(description.toLowerCase().contains(wrd.toLowerCase())){
+                matches++;
+            }
+        }
+        return matches;
     }
 
     private void sortProducts(String sortType, List<Product> productList){

@@ -27,7 +27,8 @@ public class ProductDetailsPageServlet extends HttpServlet {
             req.setAttribute("product",product);
             req.getRequestDispatcher("/WEB-INF/pages/productDetailsPage.jsp").forward(req,resp);
         } catch (ProductNotFoundException e) {
-            req.getRequestDispatcher("/WEB-INF/pages/errorPage404.jsp").forward(req,resp);
+            req.setAttribute("message", "product wirh id "+ id+ " not found");
+            req.getRequestDispatcher("/WEB-INF/pages/productNotFound.jsp").forward(req,resp);
         }
     }
 
@@ -50,7 +51,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + req.getServletPath() + req.getPathInfo());
             //req.getRequestDispatcher("/WEB-INF/pages/productDetailsPage.jsp").forward(req,resp);
         } catch (ProductNotFoundException e) {
-            req.getRequestDispatcher("/WEB-INF/pages/errorPage404.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/pages/productNotFound.jsp").forward(req,resp);
         } catch (NumberFormatException e ){
             req.setAttribute("product",product);
             req.setAttribute("message", "please enter numer");

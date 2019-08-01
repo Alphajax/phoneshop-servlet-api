@@ -14,7 +14,6 @@ public class Product {
     private Currency currency;
     private int stock;
     private String imageUrl;
-    private int matchesNum;
 
     public Product() {
     }
@@ -94,13 +93,6 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public int getMatchesNum() {
-        return matchesNum;
-    }
-
-    public void setMatchesNum(int matchesNum) {
-        this.matchesNum = matchesNum;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -120,7 +112,6 @@ public class Product {
                 ", currency=" + currency +
                 ", stock=" + stock +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", matchesNum=" + matchesNum +
                 '}'+'\n';
     }
 
