@@ -35,17 +35,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            int number = Integer.parseInt(req.getParameter("number"));
-            int stock = ArrayListProductDao.getInstance().getProduct(id).getStock();
-            if(stock>=number){
-                HttpSessionCartService.getInstance().add(req.getSession(),id,number);
-                req.setAttribute("message","Added Successfully");
-                Product product = ArrayListProductDao.getInstance().getProduct(id);
-                product.setStock(product.getStock()-number);
-                ArrayListProductDao.getInstance().save(product);
-            } else{
-                req.setAttribute("message" , "not enought products");
-            }
+            HttpSessionCartService.getInstance().add(req,id, Integer.parseInt(req.getParameter("number")));
 
             req.setAttribute("product",product);
             resp.sendRedirect(req.getContextPath() + req.getServletPath() + req.getPathInfo());

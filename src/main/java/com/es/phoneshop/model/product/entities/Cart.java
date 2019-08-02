@@ -24,6 +24,10 @@ public class Cart {
         this.cartItems = cartItems;
     }
 
+    public synchronized void addItem(long id, int quantity){
+        cartItems.add(new CartItem(ArrayListProductDao.getInstance().getProduct(id),quantity));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

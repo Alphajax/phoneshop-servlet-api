@@ -1,12 +1,16 @@
 package com.es.phoneshop.model.product.services;
 
+import com.es.phoneshop.model.product.dao.ArrayListProductDao;
+import com.es.phoneshop.model.product.dao.ProductDao;
 import com.es.phoneshop.model.product.entities.Cart;
-import com.es.phoneshop.model.product.entities.CartItem;
+import com.es.phoneshop.model.product.entities.Product;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 public class HttpSessionCartService {
+    private static ProductDao dao = ArrayListProductDao.getInstance();
     private static HttpSessionCartService instance;
 
     private HttpSessionCartService(){
@@ -20,15 +24,29 @@ public class HttpSessionCartService {
         return instance;
     }
 
-    public void add(HttpSession session,long productID, int quantity){
+    public void add(HttpServletRequest req,long productID, int quantity){
+
+        int number = Integer.parseInt(req.getParameter("number"));
+        int stock = ArrayListProductDao.getInstance().getProduct(productID).getStock();
+        if(stock>=number){
+            HttpSessionCartService.getInstance().synchronizedAdding(req.getSession(),productID,quantity);
+            req.setAttribute("message","Added Successfully");
+            Product product = ArrayListProductDao.getInstance().getProduct(productID);
+            product.setStock(product.getStock()-number);
+            ArrayListProductDao.getInstance().save(product);
+        } else{
+            req.setAttribute("message" , "not enought products");
+        }
+
+    }
+
+    private void synchronizedAdding(HttpSession session, long productID, int quantity){
         Cart cart;
         synchronized (session){
             cart = (Cart) session.getAttribute("cart");
         }
         synchronized (cart){
-            List<CartItem> cartItems = cart.getCartItems();
-            cartItems.add(new CartItem(productID,quantity));
-            cart.setCartItems(cartItems);
+            cart.addItem(productID,quantity);
         }
     }
 }

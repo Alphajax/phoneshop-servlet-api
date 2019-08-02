@@ -3,31 +3,20 @@ package com.es.phoneshop.model.product.entities;
 import java.util.Objects;
 
 public class CartItem {
-    private long productId;
-    private int number;
+    private final Product product;
+    private final int number;
 
-    public CartItem() {
-    }
-
-    public CartItem(long productId, int number) {
-        this.productId = productId;
+    public CartItem(Product product, int number) {
+        this.product = product;
         this.number = number;
     }
 
-    public long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(long productId) {
-        this.productId = productId;
+    public Product getProduct() {
+        return product;
     }
 
     public int getNumber() {
         return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     @Override
@@ -35,19 +24,19 @@ public class CartItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CartItem cartItem = (CartItem) o;
-        return productId == cartItem.productId &&
-                number == cartItem.number;
+        return number == cartItem.number &&
+                Objects.equals(product, cartItem.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, number);
+        return Objects.hash(product, number);
     }
 
     @Override
     public String toString() {
         return "CartItem{" +
-                "productId=" + productId +
+                "product=" + product +
                 ", number=" + number +
                 '}';
     }
