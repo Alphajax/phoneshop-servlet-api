@@ -20,6 +20,7 @@
             <th>Img</th>
             <th>Desc</th>
             <th>Qty</th>
+            <th>Del</th>
         </thead>
 
         <c:forEach var="cartItem" items="${cart.cartItems}">
@@ -28,8 +29,14 @@
                 <td><img src="${cartItem.product.imageUrl} " width="45%" height="45%"></td>
                 <td>${cartItem.product.description}</td>
                 <td>${cartItem.number}</td>
+                <td>
+                    <form method="get" action="<%=request.getContextPath()%>/deleteItem/${cartItem.product.id}">
+                        <input type="submit" value="Delete"/>
+                    </form>
+                </td>
             </tr>
         </c:forEach>
     </table>
 </body>
 </html>
+

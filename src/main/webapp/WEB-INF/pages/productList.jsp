@@ -43,4 +43,7 @@
       </tr>
     </c:forEach>
   </table>
+  <form action="cart">
+    <input type="submit" value="Cart"/>
+  </form>
 </tags:master>

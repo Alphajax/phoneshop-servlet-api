@@ -8,6 +8,7 @@ import com.es.phoneshop.model.product.entities.Product;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.http.HttpRequest;
 
 public class HttpSessionCartService {
     private static ProductDao dao = ArrayListProductDao.getInstance();
@@ -40,6 +41,11 @@ public class HttpSessionCartService {
 
     }
 
+    public void deleteItem(HttpServletRequest req, long id) {
+        HttpSession session = req.getSession();
+        synchronizedDeleting(session, id);
+    }
+
     private void synchronizedAdding(HttpSession session, long productID, int quantity){
         Cart cart;
         synchronized (session){
@@ -49,4 +55,15 @@ public class HttpSessionCartService {
             cart.addItem(productID,quantity);
         }
     }
+
+    private void synchronizedDeleting(HttpSession session , long productID) {
+        Cart cart;
+        synchronized (session) {
+            cart = (Cart) session.getAttribute("cart");
+        }
+        synchronized (cart) {
+            cart.deleteItem(productID);
+        }
+    }
+
 }

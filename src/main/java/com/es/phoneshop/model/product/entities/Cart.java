@@ -25,7 +25,19 @@ public class Cart {
     }
 
     public synchronized void addItem(long id, int quantity){
-        cartItems.add(new CartItem(ArrayListProductDao.getInstance().getProduct(id),quantity));
+        int index = -1;
+        for (int i = 0; i < cartItems.size(); i++){
+            if(cartItems.get(i).getProduct().getId().equals(id)) {
+                index = i;
+            }
+        }
+
+        if ( index != -1){
+            CartItem item = cartItems.get(index);
+            cartItems.set(index,new CartItem(item.getProduct(), item.getNumber()+quantity));
+        } else {
+            cartItems.add(new CartItem(ArrayListProductDao.getInstance().getProduct(id),quantity));
+        }
     }
 
     @Override
@@ -41,8 +53,17 @@ public class Cart {
         return Objects.hash(cartItems);
     }
 
-    public void addItemToCart(CartItem item){
-        cartItems.add(item);
-    }
+    public void deleteItem(long productID) {
+        int index = -1;
+        for (int i = 0; i < cartItems.size(); i++){
+            if(cartItems.get(i).getProduct().getId().equals(productID)) {
+                index = i;
+            }
+        }
 
+        if(index != -1) {
+            cartItems.remove(index);
+        }
+
+    }
 }
