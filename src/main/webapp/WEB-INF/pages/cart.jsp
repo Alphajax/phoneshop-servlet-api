@@ -8,35 +8,45 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:useBean id="cart" type="com.es.phoneshop.model.product.entities.Cart" scope="session"/>
-
+<jsp:useBean id="messages" type="java.util.ArrayList" scope="session"/>
 <html>
 <head>
     <title>Cart</title>
 </head>
 <body>
-    <table border="1px solid black" >
-        <thead align="center">
-            <th>ID</th>
-            <th>Img</th>
-            <th>Desc</th>
-            <th>Qty</th>
-            <th>Del</th>
-        </thead>
+    <form action="update">
+        <table border="1px solid black" >
+            <thead align="center">
+                <th>ID</th>
+                <th>Img</th>
+                <th>Desc</th>
+                <th>Qty</th>
+                <th>Del</th>
+            </thead>
+            <c:forEach var="cartItem" items="${cart.cartItems}">
+                <tr align="center">
+                    <td>${cartItem.product.id}</td>
+                    <td><img src="${cartItem.product.imageUrl} " width="45%" height="45%"></td>
+                    <td>${cartItem.product.description}</td>
+                    <td><input type="number" value="${cartItem.number}" name="${cartItem.product.id}">
+                        <c:if test="${messages.size()} > 0">
+                            ${messages.get(i)}
+                            <%messages.remove(1);%>
+                        </c:if>
+                    </td>
+                    <td>
+                        <button>
+                            <a href="<%=request.getContextPath()%>/deleteItem/${cartItem.product.id}">
+                                Delete
+                            </a>
+                        </button>
+                    </td>
+                </tr>
+            </c:forEach>
 
-        <c:forEach var="cartItem" items="${cart.cartItems}">
-            <tr align="center">
-                <td>${cartItem.product.id}</td>
-                <td><img src="${cartItem.product.imageUrl} " width="45%" height="45%"></td>
-                <td>${cartItem.product.description}</td>
-                <td>${cartItem.number}</td>
-                <td>
-                    <form method="get" action="<%=request.getContextPath()%>/deleteItem/${cartItem.product.id}">
-                        <input type="submit" value="Delete"/>
-                    </form>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
+        </table>
+        <input type="submit" value="UPDATE">
+    </form>
 </body>
 </html>
 

@@ -33,7 +33,6 @@ public class HttpSessionCartService {
             HttpSessionCartService.getInstance().synchronizedAdding(req.getSession(),productID,quantity);
             req.setAttribute("message","Added Successfully");
             Product product = ArrayListProductDao.getInstance().getProduct(productID);
-            product.setStock(product.getStock()-number);
             ArrayListProductDao.getInstance().save(product);
         } else{
             req.setAttribute("message" , "not enought products");
