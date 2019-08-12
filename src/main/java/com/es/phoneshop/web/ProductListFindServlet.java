@@ -1,8 +1,8 @@
 package com.es.phoneshop.web;
 
 import com.es.phoneshop.model.product.entities.Product;
+import com.es.phoneshop.model.product.services.ProductServiceImpl;
 import com.es.phoneshop.model.product.services.ProductService;
-import com.es.phoneshop.model.product.services.ProductServiceI;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +21,7 @@ public class ProductListFindServlet extends HttpServlet {
         String userRequest = req.getParameter("userRequest");
         String sortType = req.getParameter("sorting");
 
-        ProductServiceI service = ProductService.getInstance();
+        ProductService service = ProductServiceImpl.getInstance();
         List<Product> products = service.getProductByDescAndSort(userRequest, sortType);
         req.setAttribute("products", products);
         req.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(req,resp);

@@ -29,7 +29,7 @@ public class ArrayListProductDao implements ProductDao {
     @Override
     public synchronized Product getProduct(Long id) throws ProductNotFoundException{
         if(id == null){
-            throw new NullPointerException();
+            throw new NullPointerException("there's no product with such id");
         } else{
             for (Product prd: products) {
                 if(prd.getId().equals(id)){

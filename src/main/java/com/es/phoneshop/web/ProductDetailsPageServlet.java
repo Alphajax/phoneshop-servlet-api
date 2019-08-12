@@ -2,15 +2,16 @@ package com.es.phoneshop.web;
 
 import com.es.phoneshop.exceptions.ProductNotFoundException;
 import com.es.phoneshop.model.product.dao.ArrayListProductDao;
+import com.es.phoneshop.model.product.entities.Cart;
 import com.es.phoneshop.model.product.entities.Product;
-import com.es.phoneshop.model.product.services.HttpSessionCartService;
-import com.es.phoneshop.model.product.services.ProductService;
+import com.es.phoneshop.model.product.services.ProductServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -23,7 +24,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
         id = getId(req);
         try {
             req.setAttribute("message","Chose how much do you want to add");
-            product = ProductService.getInstance().getProduct(id);
+            product = ProductServiceImpl.getInstance().getProduct(id);
             req.setAttribute("product",product);
             req.getRequestDispatcher("/WEB-INF/pages/productDetailsPage.jsp").forward(req,resp);
         } catch (ProductNotFoundException e) {
@@ -35,9 +36,16 @@ public class ProductDetailsPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            HttpSessionCartService.getInstance().add(req,id, Integer.parseInt(req.getParameter("number")));
+            ArrayListProductDao dao = ArrayListProductDao.getInstance();
+            id = getId(req);
+            int num = Integer.parseInt(req.getParameter("number"));
+            HttpSession session = req.getSession();
+            Cart cart = (Cart) session.getAttribute("cart");
+
+            cart.addItem(dao.getProduct(id),num);
 
             req.setAttribute("product",product);
+            req.setAttribute("products", dao.findProducts());
             resp.sendRedirect(req.getContextPath() + req.getServletPath() + req.getPathInfo());
             //req.getRequestDispatcher("/WEB-INF/pages/productDetailsPage.jsp").forward(req,resp);
         } catch (ProductNotFoundException e) {

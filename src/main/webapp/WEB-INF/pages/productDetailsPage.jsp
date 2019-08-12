@@ -15,7 +15,8 @@
     <title>Title</title>
 </head>
 <body>
-    <jsp:include page="minicart.jsp"/>
+    ${requestScope.get("num")} for
+    ${requestScope.get("sum")}
     <img src="${product.imageUrl}" alt="image"/>
     <h3>${product.description}</h3>
     <h3>Price:${product.price}</h3>

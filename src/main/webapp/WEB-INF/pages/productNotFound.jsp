@@ -1,2 +1,1 @@
-<jsp:useBean id="message" scope="request" type="java.lang.String"/>
-${message}
+cant find product

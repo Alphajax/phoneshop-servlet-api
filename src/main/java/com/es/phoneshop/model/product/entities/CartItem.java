@@ -23,14 +23,13 @@ public class CartItem {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CartItem cartItem = (CartItem) o;
-        return number == cartItem.number &&
-                Objects.equals(product, cartItem.product);
+        CartItem item = (CartItem) o;
+        return product.equals(item.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(product, number);
+        return Objects.hash(product);
     }
 
     @Override

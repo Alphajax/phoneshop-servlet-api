@@ -5,11 +5,13 @@
 
 
 <jsp:useBean id="products" type="java.util.ArrayList" scope="request"/>
-<jsp:include page="minicart.jsp"/>
+<jsp:useBean id="cart" type="com.es.phoneshop.model.product.entities.Cart" scope="session"/>
 <tags:master pageTitle="Product List">
   <p>
     Welcome to Expert-Soft training!
   </p>
+  ${requestScope.get("num")} for
+  ${requestScope.get("sum")}
   <form action="find">
     <input type="text" name="userRequest">
     <select name="sorting">
@@ -43,6 +45,7 @@
         </td>
       </tr>
     </c:forEach>
+
   </table>
   <form action="cart">
     <input type="submit" value="Cart"/>

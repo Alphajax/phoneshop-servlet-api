@@ -4,15 +4,17 @@ import com.es.phoneshop.model.product.dao.ArrayListProductDao;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 public class Cart {
-    private BigDecimal sum;
-    private int num;
+    private volatile BigDecimal sum;
+    private volatile int num;
     private List<CartItem> cartItems = new ArrayList<>();
 
     public Cart() {
+        sum = BigDecimal.ZERO;
     }
 
     public Cart(List<CartItem> cartItems) {
@@ -23,72 +25,42 @@ public class Cart {
         return sum;
     }
 
-    public void setSum(BigDecimal sum) {
-        this.sum = sum;
-    }
-
     public int getNum() {
         return num;
     }
 
-    public void setNum(int num) {
-        this.num = num;
+    public synchronized List<CartItem> getCartItems() {
+        return Collections.unmodifiableList(cartItems);
     }
 
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
-    }
-
-    public synchronized void addItem(long id, int quantity){
+    public synchronized void addItem(Product product, int quantity){
         int index = -1;
-        for (int i = 0; i < cartItems.size(); i++){
-            if(cartItems.get(i).getProduct().getId().equals(id)) {
+        for (int i= 0; i < cartItems.size(); i++) {
+            if(cartItems.get(i).getProduct().equals(product)) {
                 index = i;
             }
         }
-
-        if ( index != -1){
-            CartItem item = cartItems.get(index);
-            cartItems.set(index,new CartItem(item.getProduct(), item.getNumber()+quantity));
+        if( index != -1) {
+            cartItems.set(index, new CartItem(product, cartItems.get(index).getNumber() + quantity));
         } else {
-            cartItems.add(new CartItem(ArrayListProductDao.getInstance().getProduct(id),quantity));
+            cartItems.add(new CartItem(product, quantity));
         }
-        findSumm();
+        recalculate();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cart cart = (Cart) o;
-        return Objects.equals(cartItems, cart.cartItems);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cartItems);
-    }
-
-    public void deleteItem(long productID) {
-        int index = -1;
-        for (int i = 0; i < cartItems.size(); i++){
-            if(cartItems.get(i).getProduct().getId().equals(productID)) {
-                index = i;
-            }
-        }
-
-        if(index != -1) {
-            cartItems.remove(index);
-        }
-        findSumm();
+    public synchronized void deleteItem(Product product) {
+        cartItems.remove(new CartItem(product,0));
+        recalculate();
 
     }
 
-    void findSumm(){
+    public synchronized void updateItem(CartItem item) {
+        int index = cartItems.indexOf(item);
+        cartItems.set(index,item);
+        recalculate();
+    }
+
+    private void recalculate(){
         sum = BigDecimal.ZERO;
         num = 0;
         for (CartItem item:cartItems) {

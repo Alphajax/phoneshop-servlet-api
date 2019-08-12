@@ -3,12 +3,13 @@ package com.es.phoneshop.model.product.services;
 import com.es.phoneshop.model.product.dao.ArrayListProductDao;
 import com.es.phoneshop.model.product.dao.ProductDao;
 import com.es.phoneshop.model.product.entities.Cart;
+import com.es.phoneshop.model.product.entities.CartItem;
 import com.es.phoneshop.model.product.entities.Product;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HttpSessionCartService {
     private static ProductDao dao = ArrayListProductDao.getInstance();
@@ -25,44 +26,31 @@ public class HttpSessionCartService {
         return instance;
     }
 
-    public void add(HttpServletRequest req,long productID, int quantity){
-
-        int number = Integer.parseInt(req.getParameter("number"));
-        int stock = ArrayListProductDao.getInstance().getProduct(productID).getStock();
-        if(stock>=number){
-            HttpSessionCartService.getInstance().synchronizedAdding(req.getSession(),productID,quantity);
-            req.setAttribute("message","Added Successfully");
-            Product product = ArrayListProductDao.getInstance().getProduct(productID);
-            ArrayListProductDao.getInstance().save(product);
-        } else{
-            req.setAttribute("message" , "not enought products");
-        }
-
-    }
-
-    public void deleteItem(HttpServletRequest req, long id) {
+    public void updateCart(HttpServletRequest req) {
+        ArrayListProductDao dao = ArrayListProductDao.getInstance();
+        long id;
+        int newNum;
         HttpSession session = req.getSession();
-        synchronizedDeleting(session, id);
+        Cart cart = (Cart) session.getAttribute("cart");
+
+        for (int i = 0; i< cart.getCartItems().size() ; i++){
+            CartItem item = cart.getCartItems().get(i);
+            id = item.getProduct().getId();
+            newNum = Integer.parseInt(req.getParameter(String.valueOf(item.getProduct().getId())));
+            if(newNum >= 0 && newNum<= dao.getProduct(id).getStock()) {
+                HttpSessionCartService.getInstance().updateItem(cart,dao.getProduct(id) , newNum);
+            }
+        }
     }
 
-    private void synchronizedAdding(HttpSession session, long productID, int quantity){
-        Cart cart;
-        synchronized (session){
-            cart = (Cart) session.getAttribute("cart");
-        }
-        synchronized (cart){
-            cart.addItem(productID,quantity);
-        }
+    private synchronized void updateItem(Cart cart, Product product, int newNum) {
+        cart.updateItem(new CartItem(product, newNum));
     }
 
-    private void synchronizedDeleting(HttpSession session , long productID) {
-        Cart cart;
-        synchronized (session) {
-            cart = (Cart) session.getAttribute("cart");
-        }
-        synchronized (cart) {
-            cart.deleteItem(productID);
-        }
+    public synchronized void deleteItem(Cart cart, long id) {
+        cart.deleteItem(dao.getProduct(id));
     }
+
+
 
 }

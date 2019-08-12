@@ -11,6 +11,9 @@ import java.io.IOException;
 public class CartPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Cache-Control","no-store, must-revalidate");
+        resp.addHeader("Pragma","no-cache");
+        resp.addIntHeader("Expires",0);
         req.getRequestDispatcher("/WEB-INF/pages/cart.jsp").forward(req,resp);
     }
 

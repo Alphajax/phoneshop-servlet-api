@@ -14,7 +14,6 @@
     <title>Title</title>
 </head>
 <body>
-    ${cart.num}
-    ${cart.sum}
+    ${cart.num} for ${cart.sum}
 </body>
 </html>
