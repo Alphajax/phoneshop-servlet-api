@@ -36,9 +36,11 @@ public class CheckoutPageServlet extends HttpServlet {
         String payment = req.getParameter("payment");
 
         Order order = new Order(HashMapOrderDao.getInstance().getSize(), cart, name, deliveryMode, date, cost, address , payment);
+        //чистим карту
         String safeId = service.addOrder(order);
 
         System.out.println("/order/overview/"+safeId);
-        req.getRequestDispatcher("/order/overview/"+safeId).forward(req,resp);
+     //   req.getRequestDispatcher("/order/overview/"+safeId).forward(req,resp);
+        resp.sendRedirect("order/overview/"+safeId);
     }
 }

@@ -50,7 +50,7 @@
         <br><br>
 
         <label for="date">Delivery Date</label>
-        <input type="date" value="01-04-2019" id="date" readonly/>
+        <input type="date" value="2019-04-01" id="date" readonly/>
         <br><br>
 
         <label for="cost">Delivery Cost</label>

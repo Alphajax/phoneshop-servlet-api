@@ -5,9 +5,10 @@ import com.es.phoneshop.model.product.entities.Order;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HashMapOrderDao implements OrderDao {
-    private static final Map<String,Order> orders = new HashMap<>();
+    private static final Map<String,Order> orders = new ConcurrentHashMap<>();
 
     private static HashMapOrderDao instance;
 

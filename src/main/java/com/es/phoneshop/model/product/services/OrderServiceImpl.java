@@ -4,6 +4,7 @@ import com.es.phoneshop.model.product.dao.HashMapOrderDao;
 import com.es.phoneshop.model.product.entities.Order;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class OrderServiceImpl implements OrderService {
     private static OrderServiceImpl instance;
@@ -23,7 +24,8 @@ public class OrderServiceImpl implements OrderService {
     public String addOrder(Order order) {
         Objects.requireNonNull(order);
         HashMapOrderDao dao = HashMapOrderDao.getInstance();
-        String safeId = String.valueOf(Math.abs(order.hashCode()));
+//        String safeId = String.valueOf(Math.abs(order.hashCode()));
+        String safeId = UUID.randomUUID().toString();
         dao.addOrder(safeId,order);
         return safeId;
     }
