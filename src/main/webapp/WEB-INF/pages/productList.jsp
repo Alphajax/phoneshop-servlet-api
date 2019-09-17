@@ -12,6 +12,9 @@
   </p>
   ${requestScope.get("num")} for
   ${requestScope.get("sum")}
+  <form action="advanced">
+    <input type="submit" value="Advanced Search"/>
+  </form>
   <form action="find">
     <input type="text" name="userRequest">
     <select name="sorting">
@@ -50,4 +53,6 @@
   <form action="cart">
     <input type="submit" value="Cart"/>
   </form>
+
+
 </tags:master>

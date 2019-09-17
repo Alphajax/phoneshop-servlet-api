@@ -14,7 +14,7 @@ import java.io.IOException;
 public class OrderOverviewPageServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         StringBuffer url = req.getRequestURL();
         String orderId = url.substring(url.lastIndexOf("/")+1);
         System.out.println(orderId);

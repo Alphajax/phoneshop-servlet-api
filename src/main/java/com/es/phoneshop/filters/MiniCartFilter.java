@@ -16,7 +16,7 @@ public class MiniCartFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
 
         Cart cart = (Cart) session.getAttribute("cart");
         servletRequest.setAttribute("num",cart.getNum());
